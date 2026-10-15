@@ -6,7 +6,6 @@ import { calculateComparison } from "../utils/scoring.js";
 
 import ProfileCard from "./ProfileCard.jsx";
 import ComparisonTable from "./ComparisonTable.jsx";
-import WinnerCard from "./WinnerCard.jsx";
 
 function Input({ label, value, onChange, placeholder }) {
   return (
@@ -58,14 +57,25 @@ const SearchForm = () => {
     }
   };
 
+  console.log("profiles.....", profiles);
+
   const comparison = profiles
     ? calculateComparison(profiles.user1, profiles.user2)
     : null;
 
+  console.log("comparison......", comparison);
+
+  const isTie = comparison && comparison.winner === "tie";
+
+  const winner =
+    comparison && comparison.winner === "user1"
+      ? profiles?.user1
+      : profiles?.user2;
+
   return (
     <div className="flex flex-col gap-4">
       {/* Search form */}
-      <div className="relative overflow-hidden rounded-xl border-2 border-black/15 bg-[#F8F9FA] p-3 shadow-[0_2px_10px_rgba(0,0,0,0.05)]">
+      <div className="rounded-xl border border-black/10 bg-white p-5 shadow-sm">
         <div className="flex flex-col items-center gap-3 md:flex-row md:gap-4">
           <div className="w-full flex-1">
             <Input
@@ -119,20 +129,26 @@ const SearchForm = () => {
 
       {/* Comparison results */}
       {profiles && comparison && (
-        <div className="flex flex-col gap-4">
-          <div className="grid grid-cols-1 gap-3 md:grid-cols-2">
-            <ProfileCard user={profiles.user1} title="Developer 1" />
+        <div className="flex flex-col gap-10">
+          <div className="grid grid-cols-1 gap-10 md:grid-cols-2">
+            <ProfileCard
+              user={profiles.user1}
+              isWinner={winner == profiles.user1 ? true : false}
+              isTie={isTie}
+              percentage={comparison.percentage1}
+              score={comparison.score1}
+            />
 
-            <ProfileCard user={profiles.user2} title="Developer 2" />
+            <ProfileCard
+              user={profiles.user2}
+              isWinner={winner == profiles.user2 ? true : false}
+              isTie={isTie}
+              percentage={comparison.percentage2}
+              score={comparison.score2}
+            />
           </div>
 
           <ComparisonTable
-            comparison={comparison}
-            user1={profiles.user1}
-            user2={profiles.user2}
-          />
-
-          <WinnerCard
             comparison={comparison}
             user1={profiles.user1}
             user2={profiles.user2}

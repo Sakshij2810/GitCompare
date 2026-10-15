@@ -31,7 +31,7 @@ function ComparisonTable({ comparison, user1, user2 }) {
                 Row winner
               </th>
 
-              <th className="px-3 py-3 text-right font-semibold">Lead</th>
+              <th className="px-3 py-3 text-right font-semibold">Lead by</th>
             </tr>
           </thead>
 

@@ -48,6 +48,7 @@ export function calculateComparison(user1, user2) {
   let score1 = 0;
   let score2 = 0;
 
+  // rowwise winner calculation
   const rows = METRIC_DEFINITIONS.map((metric) => {
     const value1 = getMetricValue(user1, metric.key);
     const value2 = getMetricValue(user2, metric.key);
@@ -66,13 +67,17 @@ export function calculateComparison(user1, user2) {
       score2 += metric.weight / 2;
     }
 
-    // Percentage lead relative to the smaller value.
-    // When the smaller value is zero, the percentage is undefined.
-    const lower = Math.min(value1, value2);
-    const higher = Math.max(value1, value2);
+    const total = value1 + value2;
 
-    const leadPercentage =
-      lower === 0 ? null : ((higher - lower) / lower) * 100;
+    let leadPercentage;
+
+    if (value1 == value2) {
+      leadPercentage = null;
+    } else {
+      const winnerRowValue = Math.max(value1, value2);
+
+      leadPercentage = total == 0 ? null : (winnerRowValue / total) * 100;
+    }
 
     return {
       ...metric,
@@ -83,6 +88,7 @@ export function calculateComparison(user1, user2) {
     };
   });
 
+  // Overall winner calculation
   let winner = "tie";
 
   if (score1 > score2) {

@@ -35,7 +35,7 @@ const Home = () => {
       </motion.nav>
 
       {/* main content */}
-      <div className="mx-20 mt-20">
+      <div className="mx-60 mt-20">
         <SearchForm />
       </div>
     </div>
