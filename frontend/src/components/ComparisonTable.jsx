@@ -47,11 +47,6 @@ function ComparisonTable({ comparison, user1, user2 }) {
           </tbody>
         </table>
       </div>
-
-      <div className="border-t border-black/10 px-4 py-3 text-[11px] text-black/45">
-        Percentage lead is calculated relative to the lower value. N/A means the
-        percentage cannot be calculated.
-      </div>
     </div>
   );
 }
